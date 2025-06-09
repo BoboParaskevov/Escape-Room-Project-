@@ -38,14 +38,12 @@ namespace Escape_Room
 
         public void Start()
         {
-            Console.WriteLine("I want to play a game...(pravila)");
             EnterRoom(location);
             while (roomsSolved < rooms.Count)
             {
-                Console.WriteLine("You've entered the next room");
+                Console.WriteLine("You've another room");
                 EnterRoom(location);
             }
-            Console.WriteLine("You've escaped with the ... in your posession");
         }
 
         public void EnterRoom(int number)
