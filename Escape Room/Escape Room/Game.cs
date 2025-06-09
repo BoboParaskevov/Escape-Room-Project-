@@ -189,5 +189,10 @@ namespace Escape_Room
                 }
             }
         }
+
+        public string PrintDescription(Room room)
+        {
+            return room.Description;
+        }
     }
 }
