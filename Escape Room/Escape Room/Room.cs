@@ -104,7 +104,7 @@ namespace Escape_Room
                         }
                     }
                 }
-                if (input == "open")
+                else if (input == "open")
                 {
                     input = input.Substring(input.IndexOf(" ") + 1);
                     foreach (Interactable interactable in interactables[1])
@@ -172,6 +172,18 @@ namespace Escape_Room
                             }
                         }
                     }
+                }
+                else if (input == "room description")
+                {
+                    Console.WriteLine(description);
+                }
+                else if  (input == "rules and mechanics")
+                {
+                    Console.WriteLine("rules and mechanics(not added)");
+                }
+                else
+                {
+                    Console.WriteLine("This input does nothing");
                 }
                 if (puzzlesSolved == 3)
                 {

@@ -264,7 +264,10 @@ namespace Escape_Room
 
         public void Start()
         {
-            
+            Console.WriteLine("Rules and Mechanics");
+            rooms[0].Start(player.Inventory);
+            rooms[1].Start(player.Inventory);
+            rooms[2].Start(player.Inventory);
         }
 
         public void Merge (string firstItem,  string secondItem)
