@@ -10,7 +10,7 @@ namespace Escape_Room
     {
         private List<Item> inventory;
 
-        internal List<Item> Inventory { get => inventory; set => inventory = value; }
+        public List<Item> Inventory { get => inventory; set => inventory = value; }
 
         public Player(List<Item> inventory)
         {
