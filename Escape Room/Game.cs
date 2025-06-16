@@ -264,7 +264,7 @@ namespace Escape_Room
 
         public void Start()
         {
-            Console.WriteLine("Rules and Mechanics");
+            Console.WriteLine("Rules and Mechanics:\nIn this game you will be able to perform certain actions by typing them and the object you want to interact with.Those actions are:\nInvestigate - look at and search a certain object\nOpen - try to open something\nYou will have an inventory with items. You can see those items by typing \"Check Inventory\"\nThe last important thing is that if you want to see the description of the room you are in again you just need to type \"Room Description\"");
             rooms[0].Start(player.Inventory);
             rooms[1].Start(player.Inventory);
             rooms[2].Start(player.Inventory);
@@ -349,6 +349,16 @@ namespace Escape_Room
         public string PrintDescription(Room room)
         {
             return room.Description;
+        }
+
+        public string PrintInventory()
+        {
+            string inventory = string.Empty;
+            foreach (Item item in player.Inventory)
+            {
+                inventory += $"{item}\n";
+            }
+            return inventory;
         }
     }
 }
