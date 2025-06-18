@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Escape_Room
 {
-    internal class Item
+       internal class Item
     {
         private string name;
         private string description;
