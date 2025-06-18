@@ -10,18 +10,21 @@ namespace Escape_Room
     {
         private string description;
         private string answer;
+        private string congartulation;
         private List<Item> reward;
         private bool solved;
 
         public string Description { get => description; set => description = value; }
         public string Answer { get => answer; set => answer = value; }
         public bool Solved { get => solved; set => solved = value; }
-        internal List<Item> Reward { get => reward; set => reward = value; }
+        public List<Item> Reward { get => reward; set => reward = value; }
+        public string Congartulation { get => congartulation; set => congartulation = value; }
 
-        public Puzzle(string description, string answer, List<Item> reward)
+        public Puzzle(string description, string answer, string congratulation, List<Item> reward)
         {
             this.description = description;
             this.answer = answer;
+            this.congartulation = congratulation;
             this.reward = reward;
             solved = false;
         }

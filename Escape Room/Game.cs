@@ -14,9 +14,9 @@ namespace Escape_Room
         private List<Item> mergedItems;
         private List<string> roomNames;
 
-        internal Player Player { get => player; set => player = value; }
-        internal List<Room> Rooms { get => rooms; set => rooms = value; }
-        internal List<Item> MergedItems { get => mergedItems; set => mergedItems = value; }
+        public Player Player { get => player; set => player = value; }
+        public List<Room> Rooms { get => rooms; set => rooms = value; }
+        public List<Item> MergedItems { get => mergedItems; set => mergedItems = value; }
 
         public Game()
         {
@@ -49,223 +49,104 @@ namespace Escape_Room
                         string roomDescription = line.Substring(line.IndexOf(":") + 2);
                         room.Description = roomDescription;
                     }
-                    else if (substring == "Open")
-                    {
-                        string interName = line.Substring(line.IndexOf(":") + 2, line.IndexOf(";") - line.IndexOf(":") + 2);
-                        line = line.Substring(line.IndexOf(";") + 2);
-                        string condition = line.Substring(0, line.IndexOf(";"));
-                        line = line.Substring(line.IndexOf(";") + 2);
-                        string without_condition = line.Substring(0, line.IndexOf(";"));
-                        line = line.Substring(line.IndexOf(";") + 2);
-                        bool final = false;
-                        if (line.Substring(0, line.IndexOf(";")) == "true")
-                        {
-                            final = true;
-                        }
-                        Interactable interactable = new Interactable(interName, condition, without_condition, final);
-                        if (line.Substring(0, line.IndexOf(":")) == "Text")
-                        {
-                            line = line.Substring(line.IndexOf(':') + 2);
-                            if (line.Contains("Puzzle"))
-                            {
-                                string text = line.Substring(0, line.IndexOf(";"));
-                                line = line.Substring(line.IndexOf(':') + 2);
-                                string puzzleDescription = line.Substring(0, line.IndexOf(";"));
-                                line = line.Substring(line.IndexOf(";") + 2);
-                                string answer = line.Substring(0, line.IndexOf(';'));
-                                line = line.Substring(line.IndexOf(";") + 2);
-                                List<Item> reward = new List<Item>();
-                                Puzzle puzzle = new Puzzle(puzzleDescription, answer, reward);
-                                if (line.Contains("),"))
-                                {
-                                    string itemName1 = line.Substring(0, line.IndexOf(" -"));
-                                    line = line.Substring(line.IndexOf("-") + 2);
-                                    string itemDescription1 = line.Substring(0, line.IndexOf("(") - 1);
-                                    string disappear1 = line.Substring(line.IndexOf("(") + 1, line.IndexOf(")"));
-                                    Item item1 = new Item(itemName1, itemDescription1, disappear1);
-                                    reward.Add(item1);
-                                    line = line.Substring(line.IndexOf(",") + 2);
-                                    string itemName2 = line.Substring(0, line.IndexOf(" -"));
-                                    line = line.Substring(line.IndexOf("-") + 2);
-                                    string itemDescription2 = line.Substring(0, line.IndexOf("(") - 1);
-                                    string disappear2 = line.Substring(line.IndexOf("(") + 1, line.IndexOf(")"));
-                                    Item item2 = new Item(itemName2, itemDescription2, disappear2);
-                                    reward.Add(item2);
-                                }
-                                else
-                                {
-                                    string itemName = line.Substring(0, line.IndexOf(" -"));
-                                    line = line.Substring(line.IndexOf("-") + 2);
-                                    string itemDescription = line.Substring(0, line.IndexOf("(") - 1);
-                                    string disappear = line.Substring(line.IndexOf("(") + 1, line.IndexOf(")"));
-                                    Item item = new Item(itemName, itemDescription, disappear);
-                                    reward.Add(item);
-                                }
-                                line = line.Substring(line.IndexOf(");") + 3);
-                                string puzzleSolved = line.Substring(0);
-                                interactable.Text = text;
-                                interactable.Puzzle = puzzle;
-                                interactable.PuzzleSolved = puzzleSolved;
-                                interactables[1].Add(interactable);
-                            }
-                            else
-                            {
-                                string text = line.Substring(0);
-                                interactable.Text = text;
-                                interactables[1].Add(interactable);
-                            }
-                        }
-                        else if (line.Substring(0, line.IndexOf(":")) == "Puzzle")
-                        {
-                            line = line.Substring(line.IndexOf(':') + 2);
-                            string puzzleDescription = line.Substring(0, line.IndexOf(";"));
-                            line = line.Substring(line.IndexOf(";") + 2);
-                            string answer = line.Substring(0, line.IndexOf(';'));
-                            line = line.Substring(line.IndexOf(";") + 2);
-                            List<Item> reward = new List<Item>();
-                            Puzzle puzzle = new Puzzle(puzzleDescription, answer, reward);
-                            if (line.Contains("),"))
-                            {
-                                string itemName1 = line.Substring(0, line.IndexOf(" -"));
-                                line = line.Substring(line.IndexOf("-") + 2);
-                                string itemDescription1 = line.Substring(0, line.IndexOf("(") - 1);
-                                string disappear1 = line.Substring(line.IndexOf("(") + 1, line.IndexOf(")"));
-                                Item item1 = new Item(itemName1, itemDescription1, disappear1);
-                                reward.Add(item1);
-                                line = line.Substring(line.IndexOf(",") + 2);
-                                string itemName2 = line.Substring(0, line.IndexOf(" -"));
-                                line = line.Substring(line.IndexOf("-") + 2);
-                                string itemDescription2 = line.Substring(0, line.IndexOf("(") - 1);
-                                string disappear2 = line.Substring(line.IndexOf("(") + 1, line.IndexOf(")"));
-                                Item item2 = new Item(itemName2, itemDescription2, disappear2);
-                                reward.Add(item2);
-                            }
-                            else
-                            {
-                                string itemName = line.Substring(0, line.IndexOf(" -"));
-                                line = line.Substring(line.IndexOf("-") + 2);
-                                string itemDescription = line.Substring(0, line.IndexOf("(") - 1);
-                                string disappear = line.Substring(line.IndexOf("(") + 1, line.IndexOf(")"));
-                                Item item = new Item(itemName, itemDescription, disappear);
-                                reward.Add(item);
-                            }
-                            line = line.Substring(line.IndexOf(");") + 3);
-                            string puzzleSolved = line.Substring(0);
-                            interactable.Puzzle = puzzle;
-                            interactable.PuzzleSolved = puzzleSolved;
-                            interactables[1].Add(interactable);
-                        }
-                    }
                     else if (substring == "Investigate")
                     {
-                        string interName = line.Substring(line.IndexOf(":") + 2, line.IndexOf(";") - line.IndexOf(":") + 2);
-                        line = line.Substring(line.IndexOf(";") + 2);
-                        string condition = line.Substring(0, line.IndexOf(";"));
-                        line = line.Substring(line.IndexOf(";") + 2);
-                        string without_condition = line.Substring(0, line.IndexOf(";"));
-                        line = line.Substring(line.IndexOf(";") + 2);
-                        Interactable interactable = new Interactable(interName, condition, without_condition);
-                        if (line.Substring(0, line.IndexOf(":")) == "Text")
-                        {
-                            line = line.Substring(line.IndexOf(':') + 2);
-                            if (line.Contains("Puzzle"))
-                            {
-                                string text = line.Substring(0, line.IndexOf(";"));
-                                line = line.Substring(line.IndexOf(':') + 2);
-                                string puzzleDescription = line.Substring(0, line.IndexOf(";"));
-                                line = line.Substring(line.IndexOf(";") + 2);
-                                string answer = line.Substring(0, line.IndexOf(';'));
-                                line = line.Substring(line.IndexOf(";") + 2);
-                                List<Item> reward = new List<Item>();
-                                Puzzle puzzle = new Puzzle(puzzleDescription, answer, reward);
-                                if (line.Contains("),"))
-                                {
-                                    string itemName1 = line.Substring(0, line.IndexOf(" -"));
-                                    line = line.Substring(line.IndexOf("-") + 2);
-                                    string itemDescription1 = line.Substring(0, line.IndexOf("(") - 1);
-                                    string disappear1 = line.Substring(line.IndexOf("(") + 1, line.IndexOf(")"));
-                                    Item item1 = new Item(itemName1, itemDescription1, disappear1);
-                                    reward.Add(item1);
-                                    line = line.Substring(line.IndexOf(",") + 2);
-                                    string itemName2 = line.Substring(0, line.IndexOf(" -"));
-                                    line = line.Substring(line.IndexOf("-") + 2);
-                                    string itemDescription2 = line.Substring(0, line.IndexOf("(") - 1);
-                                    string disappear2 = line.Substring(line.IndexOf("(") + 1, line.IndexOf(")"));
-                                    Item item2 = new Item(itemName2, itemDescription2, disappear2);
-                                    reward.Add(item2);
-                                }
-                                else
-                                {
-                                    string itemName = line.Substring(0, line.IndexOf(" -"));
-                                    line = line.Substring(line.IndexOf("-") + 2);
-                                    string itemDescription = line.Substring(0, line.IndexOf("(") - 1);
-                                    string disappear = line.Substring(line.IndexOf("(") + 1, line.IndexOf(")"));
-                                    Item item = new Item(itemName, itemDescription, disappear);
-                                    reward.Add(item);
-                                }
-                                line = line.Substring(line.IndexOf(");") + 3);
-                                string puzzleSolved = line.Substring(0);
-                                interactable.Text = text;
-                                interactable.Puzzle = puzzle;
-                                interactable.PuzzleSolved = puzzleSolved;
-                                interactables[0].Add(interactable);
-                            }
-                            else
-                            {
-                                string text = line.Substring(0);
-                                interactable.Text = text;
-                                interactables[0].Add(interactable);
-                            }
-                        }
-                        else if (line.Substring(0, line.IndexOf(":")) == "Puzzle")
-                        {
-                            line = line.Substring(line.IndexOf(':') + 2);
-                            string puzzleDescription = line.Substring(0, line.IndexOf(";"));
-                            line = line.Substring(line.IndexOf(";") + 2);
-                            string answer = line.Substring(0, line.IndexOf(';'));
-                            line = line.Substring(line.IndexOf(";") + 2);
-                            List<Item> reward = new List<Item>();
-                            Puzzle puzzle = new Puzzle(puzzleDescription, answer, reward);
-                            if (line.Contains("),"))
-                            {
-                                string itemName1 = line.Substring(0, line.IndexOf(" -"));
-                                line = line.Substring(line.IndexOf("-") + 2);
-                                string itemDescription1 = line.Substring(0, line.IndexOf("(") - 1);
-                                string disappear1 = line.Substring(line.IndexOf("(") + 1, line.IndexOf(")"));
-                                Item item1 = new Item(itemName1, itemDescription1, disappear1);
-                                reward.Add(item1);
-                                line = line.Substring(line.IndexOf(",") + 2);
-                                string itemName2 = line.Substring(0, line.IndexOf(" -"));
-                                line = line.Substring(line.IndexOf("-") + 2);
-                                string itemDescription2 = line.Substring(0, line.IndexOf("(") - 1);
-                                string disappear2 = line.Substring(line.IndexOf("(") + 1, line.IndexOf(")"));
-                                Item item2 = new Item(itemName2, itemDescription2, disappear2);
-                                reward.Add(item2);
-                            }
-                            else
-                            {
-                                string itemName = line.Substring(0, line.IndexOf(" -"));
-                                line = line.Substring(line.IndexOf("-") + 2);
-                                string itemDescription = line.Substring(0, line.IndexOf("(") - 1);
-                                string disappear = line.Substring(line.IndexOf("(") + 1, line.IndexOf(")"));
-                                Item item = new Item(itemName, itemDescription, disappear);
-                                reward.Add(item);
-                            }
-                            line = line.Substring(line.IndexOf(");") + 3);
-                            string puzzleSolved = line.Substring(0);
-                            interactable.Puzzle = puzzle;
-                            interactable.PuzzleSolved = puzzleSolved;
-                            interactables[0].Add(interactable);
-                        }
+                        ReadAction(line, interactables, 0);
                     }
-                    else if (line.Substring(0, line.IndexOf(":")) == "Key")
+                    else if (substring == "Open")
                     {
-                        line = line.Substring(line.IndexOf(":") + 2);
-                        string key = line.Substring(0);
-                        room.Key = key;
+                        ReadAction(line, interactables, 1);
                     }
                 }
             }
+        }
+
+        public static void ReadAction(string line, List<List<Interactable>> interactables, int n)
+        {
+            string interName = line.Substring(line.IndexOf(":") + 2, line.IndexOf(";") - line.IndexOf(":") + 2);
+            line = line.Substring(line.IndexOf(";") + 2);
+            string condition = line.Substring(0, line.IndexOf(";"));
+            line = line.Substring(line.IndexOf(";") + 2);
+            string without_condition = line.Substring(0, line.IndexOf(";"));
+            line = line.Substring(line.IndexOf(";") + 2);
+            bool final = false;
+            if (line.Substring(0, line.IndexOf(";")) == "true")
+            {
+                final = true;
+            }
+            Interactable interactable = new Interactable(interName, condition, without_condition, final);
+            line = line.Substring(line.IndexOf(";") + 2);
+            if (line.Substring(0, line.IndexOf(":")) == "Text")
+            {
+                line = line.Substring(line.IndexOf(':') + 2);
+                string text = line.Substring(0, line.IndexOf(";"));
+                interactable.Text = text;
+                if (line.Contains("Puzzle"))
+                {
+                    List<Item> reward = new List<Item>();
+                    line = line.Substring(line.IndexOf(":") + 2);
+                    string puzzleDescription = line.Substring(0, line.IndexOf(";"));
+                    line = line.Substring(line.IndexOf(";") + 2);
+                    string answer = line.Substring(0, line.IndexOf(";"));
+                    line = line.Substring(line.IndexOf(";") + 2);
+                    string congratulation = line.Substring(0, line.IndexOf(";"));
+                    line = line.Substring(line.IndexOf(";") + 2);
+                    string itemName = line.Substring(0, line.IndexOf(" -"));
+                    line = line.Substring(line.IndexOf("-") + 2);
+                    string itemDescription = line.Substring(0, line.IndexOf("(") - 1);
+                    string disappear = line.Substring(line.IndexOf("(") + 1, line.IndexOf(")"));
+                    Item item = new Item(itemName, itemDescription, disappear);
+                    reward.Add(item);
+                    Puzzle puzzle = new Puzzle(puzzleDescription, answer, congratulation, reward);
+                    if (line.Contains("),"))
+                    {
+                        line = line.Substring(line.IndexOf(",") + 2);
+                        string itemName2 = line.Substring(0, line.IndexOf(" -"));
+                        line = line.Substring(line.IndexOf("-") + 2);
+                        string itemDescription2 = line.Substring(0, line.IndexOf("(") - 1);
+                        string disappear2 = line.Substring(line.IndexOf("(") + 1, line.IndexOf(")"));
+                        Item item2 = new Item(itemName2, itemDescription2, disappear2);
+                        reward.Add(item2);
+                    }
+                    line = line.Substring(line.IndexOf(";") + 2);
+                    string puzzleSolved = line.Substring(0);
+                    interactable.Puzzle = puzzle;
+                    interactable.PuzzleSolved = puzzleSolved;
+                }
+            }
+            else if (line.Substring(0, line.IndexOf(":")) == "Puzzle")
+            {
+                List<Item> reward = new List<Item>();
+                line = line.Substring(line.IndexOf(":") + 2);
+                string puzzleDescription = line.Substring(0, line.IndexOf(";"));
+                line = line.Substring(line.IndexOf(";") + 2);
+                string answer = line.Substring(0, line.IndexOf(";"));
+                line = line.Substring(line.IndexOf(";") + 2);
+                string congratulation = line.Substring(0, line.IndexOf(";"));
+                line = line.Substring(line.IndexOf(";") + 2);
+                string itemName = line.Substring(0, line.IndexOf(" -"));
+                line = line.Substring(line.IndexOf("-") + 2);
+                string itemDescription = line.Substring(0, line.IndexOf("(") - 1);
+                string disappear = line.Substring(line.IndexOf("(") + 1, line.IndexOf(")"));
+                Item item = new Item(itemName, itemDescription, disappear);
+                reward.Add(item);
+                Puzzle puzzle = new Puzzle(puzzleDescription, answer, congratulation, reward);
+                if (line.Contains("),"))
+                {
+                    line = line.Substring(line.IndexOf(",") + 2);
+                    string itemName2 = line.Substring(0, line.IndexOf(" -"));
+                    line = line.Substring(line.IndexOf("-") + 2);
+                    string itemDescription2 = line.Substring(0, line.IndexOf("(") - 1);
+                    string disappear2 = line.Substring(line.IndexOf("(") + 1, line.IndexOf(")"));
+                    Item item2 = new Item(itemName2, itemDescription2, disappear2);
+                    reward.Add(item2);
+                }
+                line = line.Substring(line.IndexOf(";") + 2);
+                string puzzleSolved = line.Substring(0);
+                interactable.Puzzle = puzzle;
+                interactable.PuzzleSolved = puzzleSolved;
+            }
+            interactables[n].Add(interactable);
         }
 
         public void Start()

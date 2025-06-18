@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
@@ -22,7 +22,7 @@ namespace Escape_Room
         public string Without_condition { get => without_condition; set => without_condition = value; }
         public bool Final { get => final; set => final = value; }
         public string Text { get => text; set => text = value; }
-        internal Puzzle Puzzle { get => puzzle; set => puzzle = value; }
+        public Puzzle Puzzle { get => puzzle; set => puzzle = value; }
         public string PuzzleSolved { get => puzzleSolved; set => puzzleSolved = value; }
 
         public Interactable(string name, string condition, string without_condition, bool final)
@@ -34,4 +34,3 @@ namespace Escape_Room
         }
     }
 }
-
