@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Escape_Room
 {
-    internal class Room
+        internal class Room
     {
         private string description;
         private List<Puzzle> puzzles;
@@ -19,13 +19,13 @@ namespace Escape_Room
         public int PuzzlesSolved { get => puzzlesSolved; set => puzzlesSolved = value; }
         internal Item Key { get => key; set => key = value; }
         public bool Solved { get => solved; set => solved = value; }
-        
+
         public Room(string description, List<Puzzle> puzzles, Item key)
         {
             this.description = description;
             this.puzzles = puzzles;
             this.key = key;
-            puzzlesSolved = 0;  
+            puzzlesSolved = 0;
             solved = false;
         }
 
