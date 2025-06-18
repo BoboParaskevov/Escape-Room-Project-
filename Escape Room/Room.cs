@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,7 +29,7 @@ namespace Escape_Room
             solved = false;
         }
 
-        public void Start(List<Item> inventory)
+        public void Start(Player player)
         {
             Console.WriteLine(description);
             while (solved == false)
@@ -56,7 +56,7 @@ namespace Escape_Room
                                         {
                                             Console.WriteLine(interactable.Text);
                                         }
-                                        interactable.Puzzle.Start(inventory, puzzlesSolved);
+                                        interactable.Puzzle.Start(player.Inventory, puzzlesSolved);
                                     }
                                 }
                                 else
@@ -66,13 +66,13 @@ namespace Escape_Room
                             }
                             else
                             {
-                                foreach (Item item in inventory)
+                                foreach (Item item in player.Inventory)
                                 {
                                     if (item.Name == interactable.Condition)
                                     {
                                         if (item.Disappear == true)
                                         {
-                                            inventory.Remove(item);
+                                            player.Inventory.Remove(item);
                                             interactable.Condition = "always";
                                         }
                                         if (interactable.Puzzle != null)
@@ -87,7 +87,7 @@ namespace Escape_Room
                                                 {
                                                     Console.WriteLine(interactable.Text);
                                                 }
-                                                interactable.Puzzle.Start(inventory, puzzlesSolved);
+                                                interactable.Puzzle.Start(player.Inventory, puzzlesSolved);
                                             }
                                         }
                                         else
@@ -125,7 +125,7 @@ namespace Escape_Room
                                         {
                                             Console.WriteLine(interactable.Text);
                                         }
-                                        interactable.Puzzle.Start(inventory, puzzlesSolved);
+                                        interactable.Puzzle.Start(player.Inventory, puzzlesSolved);
                                     }
                                 }
                                 else
@@ -135,13 +135,13 @@ namespace Escape_Room
                             }
                             else
                             {
-                                foreach (Item item in inventory)
+                                foreach (Item item in player.Inventory)
                                 {
                                     if (item.Name == interactable.Condition)
                                     {
                                         if (item.Disappear == true)
                                         {
-                                            inventory.Remove(item);
+                                            player.Inventory.Remove(item);
                                             interactable.Condition = "always";
                                         }
                                         if (interactable.Puzzle != null)
@@ -156,7 +156,7 @@ namespace Escape_Room
                                                 {
                                                     Console.WriteLine(interactable.Text);
                                                 }
-                                                interactable.Puzzle.Start(inventory, puzzlesSolved);
+                                                interactable.Puzzle.Start(player.Inventory, puzzlesSolved);
                                             }
                                         }
                                         else
@@ -177,9 +177,13 @@ namespace Escape_Room
                 {
                     Console.WriteLine(description);
                 }
-                else if  (input == "rules and mechanics")
+                else if (input == "rules and mechanics")
                 {
                     Console.WriteLine("rules and mechanics(not added)");
+                }
+                else if (input == "check inventory")
+                {
+                    Console.WriteLine(player.CheckInventory());
                 }
                 else
                 {
@@ -188,7 +192,7 @@ namespace Escape_Room
                 if (puzzlesSolved == 3)
                 {
                     bool check = false;
-                    foreach (Item item in inventory)
+                    foreach (Item item in player.Inventory)
                     {
                         if (key == item.Name)
                         {
@@ -200,7 +204,7 @@ namespace Escape_Room
                     {
                         solved = true;
                         Thread.Sleep(8000);
-                        Console.Write("Exiting Room");
+                        Console.Write("Loading");
                         Thread.Sleep(1000);
                         Console.Write(".");
                         Thread.Sleep(1000);
