@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -57,13 +57,19 @@ namespace Escape_Room
                                         interactable.Puzzle.Start(player.Inventory, puzzlesSolved);
                                         if  (interactable.Final == true)
                                         {
-
+                                            Console.WriteLine("Exiting Room");
+                                            solved = true;
                                         }
                                     }
                                 }
                                 else
                                 {
                                     Console.WriteLine(interactable.Text);
+                                    if (interactable.Final == true)
+                                    {
+                                        Console.WriteLine("Exiting Room");
+                                        solved = true;
+                                    }
                                 }
                             }
                             else
@@ -90,11 +96,21 @@ namespace Escape_Room
                                                     Console.WriteLine(interactable.Text);
                                                 }
                                                 interactable.Puzzle.Start(player.Inventory, puzzlesSolved);
+                                                if (interactable.Final == true)
+                                                {
+                                                    Console.WriteLine("Exiting Room");
+                                                    solved = true;
+                                                }
                                             }
                                         }
                                         else
                                         {
                                             Console.WriteLine(interactable.Text);
+                                            if (interactable.Final == true)
+                                            {
+                                                Console.WriteLine("Exiting Room");
+                                                solved = true;
+                                            }
                                         }
                                     }
                                     else
@@ -190,31 +206,6 @@ namespace Escape_Room
                 else
                 {
                     Console.WriteLine("This input does nothing");
-                }
-                if (puzzlesSolved == 3)
-                {
-                    bool check = false;
-                    foreach (Item item in player.Inventory)
-                    {
-                        if (key == item.Name)
-                        {
-                            check = true;
-                            break;
-                        }
-                    }
-                    if (check == false)
-                    {
-                        solved = true;
-                        Thread.Sleep(8000);
-                        Console.Write("Loading");
-                        Thread.Sleep(1000);
-                        Console.Write(".");
-                        Thread.Sleep(1000);
-                        Console.Write(".");
-                        Thread.Sleep(1000);
-                        Console.WriteLine(".");
-                        Thread.Sleep(3000);
-                    }
                 }
             }
         }
