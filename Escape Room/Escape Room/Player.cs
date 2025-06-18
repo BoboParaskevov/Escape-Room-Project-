@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Escape_Room
 {
-    internal class Player
+       internal class Player
     {
         private List<Item> inventory;
 
@@ -20,21 +20,24 @@ namespace Escape_Room
         public void Add(Item item)
         {
             inventory.Add(item);
+            Console.WriteLine($"[Inventory Updated] You acquired: {item.Name}");
         }
 
         public void Remove(Item item)
         {
             inventory.Remove(item);
+            Console.WriteLine($"[Inventory Updated] You lost: {item.Name}");
         }
 
         public string CheckInventory()
         {
-            string a = string.Empty;
+            if (inventory.Count == 0) return "Your inventory is empty.";
+            string result = "Your inventory contains:\n";
             foreach (Item item in inventory)
             {
-                a += $"{item}\n";
+                result += $"- {item.Name}: {item.Description}\n";
             }
-            return a;
+            return result;
         }
     }
 }
