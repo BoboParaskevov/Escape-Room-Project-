@@ -12,15 +12,14 @@ namespace Escape_Room
         private List<string> interactions;
         private List<List<Interactable>> interactables;
         private int puzzlesSolved;
-        private string key;
         private bool solved;
 
         public string Description { get => description; set => description = value; }
-        public int PuzzlesSolved { get => puzzlesSolved; set => puzzlesSolved = value; }
-        internal string Key { get => key; set => key = value; }
-        public bool Solved { get => solved; set => solved = value; }
         public List<string> Interactions { get => interactions; set => interactions = value; }
         public List<List<Interactable>> Interactables { get => interactables; set => interactables = value; }
+        public int PuzzlesSolved { get => puzzlesSolved; set => puzzlesSolved = value; }
+        public bool Solved { get => solved; set => solved = value; }
+        
 
         public Room()
         {
