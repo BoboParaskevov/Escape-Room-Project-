@@ -29,10 +29,10 @@ namespace Escape_Room
                 string name = line.Substring(0, line.IndexOf(" ") - 1);
                 string description = line.Substring(line.IndexOf("-") + 2, line.IndexOf(";") - line.IndexOf("-") + 2);
                 string disappear = line.Substring(line.IndexOf(";"));
-                Item item = new Item (name, description, disappear);
+                Item item = new Item(name, description, disappear);
                 mergedItems.Add(item);
             }
-            roomNames.AddRange(new List<string>() { "Childhood Room.txt"});
+            roomNames.AddRange(new List<string>() { "Childhood Room.txt" });
             for (int i = 0; i < 3; i++)
             {
                 Room room = new Room();
@@ -40,7 +40,7 @@ namespace Escape_Room
                 StreamReader rr = new StreamReader(roomNames[i]);
                 while (!rr.EndOfStream)
                 {
-                    List<List<Interactable>> interactables = new List<List<Interactable>>(2); 
+                    List<List<Interactable>> interactables = new List<List<Interactable>>(2);
                     room.Interactables = interactables;
                     string line = rr.ReadLine();
                     string substring = line.Substring(0, line.IndexOf(":"));
@@ -57,7 +57,12 @@ namespace Escape_Room
                         line = line.Substring(line.IndexOf(";") + 2);
                         string without_condition = line.Substring(0, line.IndexOf(";"));
                         line = line.Substring(line.IndexOf(";") + 2);
-                        Interactable interactable = new Interactable(interName, condition, without_condition); 
+                        bool final = false;
+                        if (line.Substring(0, line.IndexOf(";")) == "true")
+                        {
+                            final = true;
+                        }
+                        Interactable interactable = new Interactable(interName, condition, without_condition, final);
                         if (line.Substring(0, line.IndexOf(":")) == "Text")
                         {
                             line = line.Substring(line.IndexOf(':') + 2);
@@ -133,7 +138,8 @@ namespace Escape_Room
                                 string itemDescription2 = line.Substring(0, line.IndexOf("(") - 1);
                                 string disappear2 = line.Substring(line.IndexOf("(") + 1, line.IndexOf(")"));
                                 Item item2 = new Item(itemName2, itemDescription2, disappear2);
-                                reward.Add(item2);                            }
+                                reward.Add(item2);
+                            }
                             else
                             {
                                 string itemName = line.Substring(0, line.IndexOf(" -"));
@@ -265,12 +271,12 @@ namespace Escape_Room
         public void Start()
         {
             Console.WriteLine("Rules and Mechanics:\nIn this game you will be able to perform certain actions by typing them and the object you want to interact with.Those actions are:\nInvestigate - look at and search a certain object\nOpen - try to open something\nYou will have an inventory with items. You can see those items by typing \"Check Inventory\"\nThe last important thing is that if you want to see the description of the room you are in again you just need to type \"Room Description\"");
-            rooms[0].Start(player.Inventory);
-            rooms[1].Start(player.Inventory);
-            rooms[2].Start(player.Inventory);
+            rooms[0].Start(player);
+            rooms[1].Start(player);
+            rooms[2].Start(player);
         }
 
-        public void Merge (string firstItem,  string secondItem)
+        public void Merge(string firstItem, string secondItem)
         {
             StreamReader sr = new StreamReader("merging.txt");
             while (!sr.EndOfStream)
@@ -303,7 +309,7 @@ namespace Escape_Room
                 else
                 {
                     Console.WriteLine("You can't merge those items");
-                }     
+                }
             }
         }
 
@@ -329,13 +335,13 @@ namespace Escape_Room
                         {
                             string shortLine = line.Substring(line.IndexOf("+") + 1);
                             if (shortLine.Substring(shortLine.IndexOf("+") + 2, shortLine.IndexOf("=") - 2) == thirdItem)
-                            foreach (Item item in mergedItems)
-                            {
-                                if (item.Name == line.Substring(line.IndexOf("=") + 2))
+                                foreach (Item item in mergedItems)
                                 {
-                                    player.Add(item);
+                                    if (item.Name == line.Substring(line.IndexOf("=") + 2))
+                                    {
+                                        player.Add(item);
+                                    }
                                 }
-                            }
                         }
                     }
                 }
@@ -345,7 +351,7 @@ namespace Escape_Room
                 }
             }
         }
-        
+
         public string PrintDescription(Room room)
         {
             return room.Description;
