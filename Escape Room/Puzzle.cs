@@ -10,40 +10,38 @@ namespace Escape_Room
     {
         private string description;
         private string answer;
-        private string congartulation;
+        private string congratulation;
         private List<Item> reward;
-        private bool solved;
+        private bool solved = false;
 
         public string Description { get => description; set => description = value; }
         public string Answer { get => answer; set => answer = value; }
         public bool Solved { get => solved; set => solved = value; }
         public List<Item> Reward { get => reward; set => reward = value; }
-        public string Congartulation { get => congartulation; set => congartulation = value; }
+        public string Congratulation { get => congratulation; set => congratulation = value; }
 
         public Puzzle(string description, string answer, string congratulation, List<Item> reward)
         {
             this.description = description;
             this.answer = answer;
-            this.congartulation = congratulation;
+            this.congratulation = congratulation;
             this.reward = reward;
-            solved = false;
         }
 
-        public void Start(List<Item> inventory, int puzzlesSolved)
+        public void Start(List<Item> inventory)
         {
             Console.WriteLine(description);
-            while (solved = false)
+            while (solved == false)
             {
                 string guess = Console.ReadLine();
-                if (guess == answer)
+                if (guess.ToLower() == answer)
                 {
-                    Console.WriteLine("That's correct.");
+                    Console.WriteLine(congratulation);
                     solved = true;
                     foreach (Item reward in reward)
                     {
                         inventory.Add(reward);
                     }
-                    puzzlesSolved++;
                 }
                 else
                 {

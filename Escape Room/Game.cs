@@ -10,7 +10,7 @@ namespace Escape_Room
     internal class Game
     {
         private Player player;
-        private List<Room> rooms;
+        private List<Room> rooms = new List<Room>(3);
         private List<Item> mergedItems;
         private List<string> roomNames;
 
@@ -22,32 +22,45 @@ namespace Escape_Room
         {
             List<Item> inventory = new List<Item>();
             player = new Player(inventory);
-            StreamReader sr = new StreamReader("merged_items.txt");
-            while (!sr.EndOfStream)
-            {
-                string line = sr.ReadLine();
-                string name = line.Substring(0, line.IndexOf(" ") - 1);
-                string description = line.Substring(line.IndexOf("-") + 2, line.IndexOf(";") - line.IndexOf("-") + 2);
-                string disappear = line.Substring(line.IndexOf(";"));
-                Item item = new Item(name, description, disappear);
-                mergedItems.Add(item);
-            }
-            roomNames.AddRange(new List<string>() { "Childhood Room.txt" });
-            for (int i = 0; i < 3; i++)
-            {
+            //StreamReader sr = new StreamReader("merged_items.txt");
+            //while (!sr.EndOfStream)
+            //{
+            //    string line = sr.ReadLine();
+            //    string name = line.Substring(0, line.IndexOf(" ") - 1);
+            //    string description = line.Substring(line.IndexOf("-") + 2, line.IndexOf(";") - line.IndexOf("-") + 2);
+            //    string disappear = line.Substring(line.IndexOf(";"));
+            //    Item item = new Item(name, description, disappear);
+            //    mergedItems.Add(item);
+            //}
+            //roomNames.Add("C:\\Users\\matei\\source\\repos\\Escape Room\\Escape Room\\bin\\Debug\\net8.0\\Childhood Room.txt");
+            //for (int i = 0; i < 3; i++)
+            //{
                 Room room = new Room();
                 rooms.Add(room);
-                StreamReader rr = new StreamReader(roomNames[i]);
+                List<List<Interactable>> interactables = new List<List<Interactable>>();
+                List<Interactable> investigates = new List<Interactable>();
+                List<Interactable> opens = new List<Interactable>();
+                interactables.Add(investigates);
+                interactables.Add(opens);
+                room.Interactables = interactables;
+                StreamReader rr = new StreamReader("Childhood_Room.txt");
                 while (!rr.EndOfStream)
                 {
-                    List<List<Interactable>> interactables = new List<List<Interactable>>(2);
-                    room.Interactables = interactables;
                     string line = rr.ReadLine();
                     string substring = line.Substring(0, line.IndexOf(":"));
                     if (substring == "Description")
                     {
-                        string roomDescription = line.Substring(line.IndexOf(":") + 2);
+                        string roomDescription = $"{line.Substring(line.IndexOf(":") + 2)}";
                         room.Description = roomDescription;
+                    }
+                    else if (substring == "Yes")
+                    {
+                        room.New_description = room.Description;
+                    }
+                    else if (substring == "No")
+                    {
+                        string new_description = line.Substring(line.IndexOf(":") + 2);
+                        room.New_description = new_description;
                     }
                     else if (substring == "Investigate")
                     {
@@ -58,23 +71,33 @@ namespace Escape_Room
                         ReadAction(line, interactables, 1);
                     }
                 }
-            }
+            //}
         }
 
-        public static void ReadAction(string line, List<List<Interactable>> interactables, int n)
+        public void ReadAction(string line, List<List<Interactable>> interactables, int n)
         {
-            string interName = line.Substring(line.IndexOf(":") + 2, line.IndexOf(";") - line.IndexOf(":") + 2);
+            line = line.Substring(line.IndexOf(":") + 2);
+            string interName = line.Substring(0, line.IndexOf(";"));
             line = line.Substring(line.IndexOf(";") + 2);
             string condition = line.Substring(0, line.IndexOf(";"));
             line = line.Substring(line.IndexOf(";") + 2);
             string without_condition = line.Substring(0, line.IndexOf(";"));
+            line = line.Substring(line.IndexOf(";") + 2);
+            string after_use = line.Substring(0, line.IndexOf(";"));
             line = line.Substring(line.IndexOf(";") + 2);
             bool final = false;
             if (line.Substring(0, line.IndexOf(";")) == "true")
             {
                 final = true;
             }
-            Interactable interactable = new Interactable(interName, condition, without_condition, final);
+            Interactable interactable = new Interactable(interName, condition, without_condition, after_use, final);
+            line = line.Substring(line.IndexOf(";") + 2);
+            if (line.Substring(0, line.IndexOf(";")) != " ")
+            {
+                List<Item> item = new List<Item>();
+                ReadReward(line, item);
+                interactable.Item = item[0];
+            }
             line = line.Substring(line.IndexOf(";") + 2);
             if (line.Substring(0, line.IndexOf(":")) == "Text")
             {
@@ -83,75 +106,54 @@ namespace Escape_Room
                 interactable.Text = text;
                 if (line.Contains("Puzzle"))
                 {
-                    List<Item> reward = new List<Item>();
-                    line = line.Substring(line.IndexOf(":") + 2);
-                    string puzzleDescription = line.Substring(0, line.IndexOf(";"));
-                    line = line.Substring(line.IndexOf(";") + 2);
-                    string answer = line.Substring(0, line.IndexOf(";"));
-                    line = line.Substring(line.IndexOf(";") + 2);
-                    string congratulation = line.Substring(0, line.IndexOf(";"));
-                    line = line.Substring(line.IndexOf(";") + 2);
-                    string itemName = line.Substring(0, line.IndexOf(" -"));
-                    line = line.Substring(line.IndexOf("-") + 2);
-                    string itemDescription = line.Substring(0, line.IndexOf("(") - 1);
-                    string disappear = line.Substring(line.IndexOf("(") + 1, line.IndexOf(")"));
-                    Item item = new Item(itemName, itemDescription, disappear);
-                    reward.Add(item);
-                    Puzzle puzzle = new Puzzle(puzzleDescription, answer, congratulation, reward);
-                    if (line.Contains("),"))
-                    {
-                        line = line.Substring(line.IndexOf(",") + 2);
-                        string itemName2 = line.Substring(0, line.IndexOf(" -"));
-                        line = line.Substring(line.IndexOf("-") + 2);
-                        string itemDescription2 = line.Substring(0, line.IndexOf("(") - 1);
-                        string disappear2 = line.Substring(line.IndexOf("(") + 1, line.IndexOf(")"));
-                        Item item2 = new Item(itemName2, itemDescription2, disappear2);
-                        reward.Add(item2);
-                    }
-                    line = line.Substring(line.IndexOf(";") + 2);
-                    string puzzleSolved = line.Substring(0);
-                    interactable.Puzzle = puzzle;
-                    interactable.PuzzleSolved = puzzleSolved;
+                    ReadPuzzle(line, interactable);
                 }
             }
             else if (line.Substring(0, line.IndexOf(":")) == "Puzzle")
             {
-                List<Item> reward = new List<Item>();
-                line = line.Substring(line.IndexOf(":") + 2);
-                string puzzleDescription = line.Substring(0, line.IndexOf(";"));
-                line = line.Substring(line.IndexOf(";") + 2);
-                string answer = line.Substring(0, line.IndexOf(";"));
-                line = line.Substring(line.IndexOf(";") + 2);
-                string congratulation = line.Substring(0, line.IndexOf(";"));
-                line = line.Substring(line.IndexOf(";") + 2);
-                string itemName = line.Substring(0, line.IndexOf(" -"));
-                line = line.Substring(line.IndexOf("-") + 2);
-                string itemDescription = line.Substring(0, line.IndexOf("(") - 1);
-                string disappear = line.Substring(line.IndexOf("(") + 1, line.IndexOf(")"));
-                Item item = new Item(itemName, itemDescription, disappear);
-                reward.Add(item);
-                Puzzle puzzle = new Puzzle(puzzleDescription, answer, congratulation, reward);
-                if (line.Contains("),"))
-                {
-                    line = line.Substring(line.IndexOf(",") + 2);
-                    string itemName2 = line.Substring(0, line.IndexOf(" -"));
-                    line = line.Substring(line.IndexOf("-") + 2);
-                    string itemDescription2 = line.Substring(0, line.IndexOf("(") - 1);
-                    string disappear2 = line.Substring(line.IndexOf("(") + 1, line.IndexOf(")"));
-                    Item item2 = new Item(itemName2, itemDescription2, disappear2);
-                    reward.Add(item2);
-                }
-                line = line.Substring(line.IndexOf(";") + 2);
-                string puzzleSolved = line.Substring(0);
-                interactable.Puzzle = puzzle;
-                interactable.PuzzleSolved = puzzleSolved;
+                ReadPuzzle(line, interactable);
             }
             interactables[n].Add(interactable);
         }
 
+        public void ReadPuzzle(string line, Interactable interactable)
+        {
+            List<Item> reward = new List<Item>();
+            line = line.Substring(line.IndexOf(":") + 2);
+            string puzzleDescription = line.Substring(0, line.IndexOf(";"));
+            line = line.Substring(line.IndexOf(";") + 2);
+            string answer = line.Substring(0, line.IndexOf(";"));
+            line = line.Substring(line.IndexOf(";") + 2);
+            string congratulation = line.Substring(0, line.IndexOf(";"));
+            line = line.Substring(line.IndexOf(";") + 2);
+            if (line.Substring(0, line.IndexOf(";")) == "Yes")
+            {
+                line = line.Substring(line.IndexOf(';') + 2);
+                ReadReward(line, reward);
+                if (line.Contains("),"))
+                {
+                    line = line.Substring(line.IndexOf(",") + 2);
+                    ReadReward(line, reward);
+                }
+            }
+            Puzzle puzzle = new Puzzle(puzzleDescription, answer, congratulation, reward);
+            interactable.Puzzle = puzzle;
+        }
+
+        public void ReadReward(string line, List<Item> reward)
+        {
+            string itemName = line.Substring(0, line.IndexOf(" -"));
+            line = line.Substring(line.IndexOf("-") + 2);
+            string itemDescription = line.Substring(0, line.IndexOf("(") - 1);
+            line = line.Substring(line.IndexOf("(") + 1);
+            string disappear = line.Substring(0, line.IndexOf(")"));
+            Item item = new Item(itemName, itemDescription, disappear);
+            reward.Add(item);
+        }
+
         public void Start()
         {
-            Console.WriteLine("Rules and Mechanics:\nIn this game you will be able to perform certain actions by typing them and the object you want to interact with.Those actions are:\nInvestigate - look at and search a certain object\nOpen - try to open something\nYou will have an inventory with items. You can see those items by typing \"Check Inventory\"\nThe last important thing is that if you want to see the description of the room you are in again you just need to type \"Room Description\"");
+            Console.WriteLine("Rules and Mechanics:\nIn this game you will be able to perform certain actions by typing them and the object you want to interact with.\nThose actions are:\nInvestigate - look at and search a certain object\nOpen - try to open something\nYou will have an inventory with items. You can see those items by typing \"Check Inventory\"\nThe last important thing is that if you want to see the description of the room you are in again you just need to type \"Room Description\"");
             rooms[0].Start(player);
             rooms[1].Start(player);
             rooms[2].Start(player);
