@@ -50,7 +50,7 @@ namespace Escape_Room
                     string substring = line.Substring(0, line.IndexOf(":"));
                     if (substring == "Description")
                     {
-                        string roomDescription = $"{line.Substring(line.IndexOf(":") + 2)}";
+                        string roomDescription = line.Substring(line.IndexOf(":") + 2).Replace(@"\n", Environment.NewLine);
                         room.Description = roomDescription;
                     }
                     else if (substring == "Yes")
@@ -59,7 +59,7 @@ namespace Escape_Room
                     }
                     else if (substring == "No")
                     {
-                        string new_description = line.Substring(line.IndexOf(":") + 2);
+                        string new_description = line.Substring(line.IndexOf(":") + 2).Replace(@"\n", Environment.NewLine);
                         room.New_description = new_description;
                     }
                     else if (substring == "Investigate")
@@ -81,9 +81,9 @@ namespace Escape_Room
             line = line.Substring(line.IndexOf(";") + 2);
             string condition = line.Substring(0, line.IndexOf(";"));
             line = line.Substring(line.IndexOf(";") + 2);
-            string without_condition = line.Substring(0, line.IndexOf(";"));
+            string without_condition = line.Substring(0, line.IndexOf(";")).Replace(@"\n", Environment.NewLine);
             line = line.Substring(line.IndexOf(";") + 2);
-            string after_use = line.Substring(0, line.IndexOf(";"));
+            string after_use = line.Substring(0, line.IndexOf(";")).Replace(@"\n", Environment.NewLine);
             line = line.Substring(line.IndexOf(";") + 2);
             bool final = false;
             if (line.Substring(0, line.IndexOf(";")) == "true")
@@ -102,7 +102,7 @@ namespace Escape_Room
             if (line.Substring(0, line.IndexOf(":")) == "Text")
             {
                 line = line.Substring(line.IndexOf(':') + 2);
-                string text = line.Substring(0, line.IndexOf(";"));
+                string text = line.Substring(0, line.IndexOf(";")).Replace(@"\n", Environment.NewLine);
                 interactable.Text = text;
                 if (line.Contains("Puzzle"))
                 {
@@ -120,11 +120,11 @@ namespace Escape_Room
         {
             List<Item> reward = new List<Item>();
             line = line.Substring(line.IndexOf(":") + 2);
-            string puzzleDescription = line.Substring(0, line.IndexOf(";"));
+            string puzzleDescription = line.Substring(0, line.IndexOf(";")).Replace(@"\n", Environment.NewLine);
             line = line.Substring(line.IndexOf(";") + 2);
             string answer = line.Substring(0, line.IndexOf(";"));
             line = line.Substring(line.IndexOf(";") + 2);
-            string congratulation = line.Substring(0, line.IndexOf(";"));
+            string congratulation = line.Substring(0, line.IndexOf(";")).Replace(@"\n", Environment.NewLine);
             line = line.Substring(line.IndexOf(";") + 2);
             if (line.Substring(0, line.IndexOf(";")) == "Yes")
             {
@@ -153,7 +153,7 @@ namespace Escape_Room
 
         public void Start()
         {
-            Console.WriteLine("Rules and Mechanics:\nIn this game you will be able to perform certain actions by typing them and the object you want to interact with.\nThose actions are:\nInvestigate - look at and search a certain object\nOpen - try to open something\nYou will have an inventory with items. You can see those items by typing \"Check Inventory\"\nThe last important thing is that if you want to see the description of the room you are in again you just need to type \"Room Description\"");
+            Console.WriteLine("Rules and Mechanics:\nIn this game you will be able to perform certain actions by typing them and the object you want to interact with.\nThose actions are:\nInvestigate - look at and search a certain object\nOpen - try to open something\nYou will have an inventory with items. You can see those items by typing \"Check Inventory\"\nThe last important thing is that if you want to see the description of the room you are in again you just need to type \"Room Description\"\n");
             rooms[0].Start(player);
             rooms[1].Start(player);
             rooms[2].Start(player);

@@ -48,7 +48,7 @@ namespace Escape_Room
                 }
                 else if (input == "rules and mechanics")
                 {
-                    Console.WriteLine("Rules and Mechanics:\nIn this game you will be able to perform certain actions by typing them and the object you want to interact with.\nThose actions are:\nInvestigate - look at and search a certain object\nOpen - try to open something\nYou will have an inventory with items. You can see those items by typing \"Check Inventory\"\nThe last important thing is that if you want to see the description of the room you are in again you just need to type \"Room Description\"");
+                    Console.WriteLine("Rules and Mechanics:\nIn this game you will be able to perform certain actions by typing them and the object you want to interact with.\nThose actions are:\nInvestigate - look at and search a certain object\nOpen - try to open something\nYou will have an inventory with items. You can see those items by typing \"Check Inventory\"\nThe last important thing is that if you want to see the description of the room you are in again you just need to type \"Room Description\"\n");
                 }
                 else if (input == "check inventory")
                 {
@@ -56,7 +56,7 @@ namespace Escape_Room
                 }
                 else
                 {
-                    Console.WriteLine("This input does nothing");
+                    Console.WriteLine("This input does nothing\n");
                 }
             }
         }
@@ -90,7 +90,17 @@ namespace Escape_Room
                             }
                             if (interactable.Final == true)
                             {
-                                Console.WriteLine("Exiting Room");
+                                Thread.Sleep(3000);
+                                Console.Write("Loading");
+                                Thread.Sleep(1000);
+                                Console.Write(".");
+                                Thread.Sleep(1000);
+                                Console.Write(".");
+                                Thread.Sleep(1000);
+                                Console.WriteLine(".");
+                                Thread.Sleep(1000);
+                                Console.WriteLine("\n");
+                                Thread.Sleep(3000);
                                 solved = true;
                             }
                         }
@@ -103,7 +113,17 @@ namespace Escape_Room
                             }
                             if (interactable.Final == true)
                             {
-                                Console.WriteLine("Exiting Room");
+                                Thread.Sleep(3000);
+                                Console.Write("Loading");
+                                Thread.Sleep(1000);
+                                Console.Write(".");
+                                Thread.Sleep(1000);
+                                Console.Write(".");
+                                Thread.Sleep(1000);
+                                Console.WriteLine(".");
+                                Thread.Sleep(1000);
+                                Console.WriteLine("\n");
+                                Thread.Sleep(3000);
                                 solved = true;
                             }
                         }
@@ -158,7 +178,7 @@ namespace Escape_Room
             }
             if (found == false)
             {
-                Console.WriteLine("This input does nothing");
+                Console.WriteLine("This input does nothing\n");
             }
         }
 
@@ -175,7 +195,17 @@ namespace Escape_Room
                 puzzlesSolved++;
                 if (interactable.Final == true)
                 {
-                    Console.WriteLine("Exiting Room");
+                    Thread.Sleep(3000);
+                    Console.Write("Loading");
+                    Thread.Sleep(1000);
+                    Console.Write(".");
+                    Thread.Sleep(1000);
+                    Console.Write(".");
+                    Thread.Sleep(1000);
+                    Console.WriteLine(".");
+                    Thread.Sleep(1000);
+                    Console.WriteLine("\n");
+                    Thread.Sleep(3000);
                     solved = true;
                 }
             }
@@ -184,7 +214,17 @@ namespace Escape_Room
                 Console.WriteLine(interactable.Text);
                 if (interactable.Final == true)
                 {
-                    Console.WriteLine("Exiting Room");
+                    Thread.Sleep(3000);
+                    Console.Write("Loading");
+                    Thread.Sleep(1000);
+                    Console.Write(".");
+                    Thread.Sleep(1000);
+                    Console.Write(".");
+                    Thread.Sleep(1000);
+                    Console.WriteLine(".");
+                    Thread.Sleep(1000);
+                    Console.WriteLine("\n");
+                    Thread.Sleep(3000);
                     solved = true;
                 }
             }
