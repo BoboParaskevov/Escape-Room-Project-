@@ -6,38 +6,20 @@ using System.Threading.Tasks;
 
 namespace Escape_Room
 {
-       internal class Player
+           internal class Player
     {
-        private List<Item> inventory;
+        public List<Item> Inventory { get; private set; } = new List<Item>();
 
-        internal List<Item> Inventory { get => inventory; set => inventory = value; }
+        public bool HasItem(string name) => Inventory.Exists(i => i.Name == name);
 
-        public Player(List<Item> inventory)
+        public void AddItem(Item item)
         {
-            this.inventory = inventory;
-        }
-
-        public void Add(Item item)
-        {
-            inventory.Add(item);
-            Console.WriteLine($"[Inventory Updated] You acquired: {item.Name}");
-        }
-
-        public void Remove(Item item)
-        {
-            inventory.Remove(item);
-            Console.WriteLine($"[Inventory Updated] You lost: {item.Name}");
-        }
-
-        public string CheckInventory()
-        {
-            if (inventory.Count == 0) return "Your inventory is empty.";
-            string result = "Your inventory contains:\n";
-            foreach (Item item in inventory)
+            if (!HasItem(item.Name))
             {
-                result += $"- {item.Name}: {item.Description}\n";
+                Inventory.Add(item);
+                Console.WriteLine($"[Item added to inventory: {item.Name}]");
             }
-            return result;
         }
     }
 }
+
