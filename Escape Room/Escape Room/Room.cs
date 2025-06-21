@@ -6,32 +6,20 @@ using System.Threading.Tasks;
 
 namespace Escape_Room
 {
-        internal class Room
+           abstract class Room
     {
-        private string description;
-        private List<Puzzle> puzzles;
-        private int puzzlesSolved;
-        private Item key;
-        private bool solved;
+        protected Player Player;
+        protected Game Game;
+        protected List<Interactable> Interactables = new();
 
-        public string Description { get => description; set => description = value; }
-        internal List<Puzzle> Puzzles { get => puzzles; set => puzzles = value; }
-        public int PuzzlesSolved { get => puzzlesSolved; set => puzzlesSolved = value; }
-        internal Item Key { get => key; set => key = value; }
-        public bool Solved { get => solved; set => solved = value; }
-
-        public Room(string description, List<Puzzle> puzzles, Item key)
+        public Room(Player player, Game game)
         {
-            this.description = description;
-            this.puzzles = puzzles;
-            this.key = key;
-            puzzlesSolved = 0;
-            solved = false;
+            Player = player;
+            Game = game;
         }
 
-        public string ShowDescription()
-        {
-            return description;
-        }
+        public abstract void Enter();
+        public abstract void ShowActions();
+        public abstract void HandleInput(string input);
     }
 }
