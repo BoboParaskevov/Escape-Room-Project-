@@ -6,26 +6,35 @@ using System.Threading.Tasks;
 
 namespace Escape_Room
 {
-     internal class Puzzle
- {
-     private string key;
-     private string description;
-     private string answer;
-     private Item reward;
-     private bool solved;
+         internal class Puzzle
+    {
+        public string Question { get; }
+        public string Solution { get; }
+        public string SuccessText { get; }
+        public bool Solved { get; private set; }
 
-     public string Key { get => key; set => key = value; }
-     public string Description { get => description; set => description = value; }
-     public string Answer { get => answer; set => answer = value; }
-     public bool Solved { get => solved; set => solved = value; }
-     internal Item Reward { get => reward; set => reward = value; }
+        public Puzzle(string question, string solution, string successText)
+        {
+            Question = question;
+            Solution = solution.ToLower();
+            SuccessText = successText;
+            Solved = false;
+        }
 
-     public Puzzle(string key, string description, string answer, Item reward)
-     {
-         this.key = key;
-         this.description = description;
-         this.answer = answer;
-         this.reward = reward;
-         solved = false;
-     }
- }
+        public bool Attempt(string answer)
+        {
+            if (answer.ToLower() == Solution)
+            {
+                Console.WriteLine(SuccessText);
+                Solved = true;
+                return true;
+            }
+            else
+            {
+                Console.WriteLine("Wrong answer, try again.");
+                return false;
+            }
+        }
+    }
+}
+
