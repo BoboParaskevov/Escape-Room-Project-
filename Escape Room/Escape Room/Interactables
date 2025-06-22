@@ -1,7 +1,1 @@
-       abstract class Interactable
-    {
-        public string Name { get; }
-        public Interactable(string name) => Name = name;
-        public abstract void Interact(Player player);
-    }
-}
+
