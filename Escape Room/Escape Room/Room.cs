@@ -10,7 +10,6 @@ namespace Escape_Room
     {
         protected Player Player;
         protected Game Game;
-        protected List<Interactable> Interactables = new();
 
         public Room(Player player, Game game)
         {
