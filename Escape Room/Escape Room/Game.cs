@@ -28,6 +28,7 @@ namespace Escape_Room
         {
             while (true)
             {
+                Console.Clear();
                 CurrentRoom.Enter();
                 CurrentRoom.ShowActions();
 
@@ -41,6 +42,7 @@ namespace Escape_Room
                 }
 
                 CurrentRoom.HandleInput(input);
+                string forward = Console.Readline();
             }
         }
 
